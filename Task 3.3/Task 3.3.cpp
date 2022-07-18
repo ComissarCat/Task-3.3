@@ -4,12 +4,14 @@ using namespace std;
 void task_1();
 void show_menu(double menu_codes[][4], string menu_names[]);
 void show_order(double menu_codes[][4], string menu_names[]);
+void task_2();
+void menu();
 
 int main()
 {
     setlocale(LC_ALL, "Russian");
 
-    task_1();
+    menu();
 
     return 0;
 }
@@ -88,7 +90,7 @@ void show_menu(double menu_codes[][4], string menu_names[])
 
 void show_order(double menu_codes[][4], string menu_names[])
 {
-    int cost_of_order = 0;
+    double cost_of_order = 0;
     cout << "\n\n\t\t\tЗаказ\n\n";
     cout << "Название\t\tКод\t\tСтоимость\t\tКоличество\t\tСумма\n\n";
     for (int i = 0; i < 7; i++)
@@ -102,4 +104,43 @@ void show_order(double menu_codes[][4], string menu_names[])
     }
     cout << "ИТОГО:\t" << cost_of_order;
     cout << "\n\n";
+}
+
+void task_2()
+{
+    int base_salary = 200, best_manager = 0;
+    double sales[3], salary[3] = { 0, 0, 0 };
+    for (int i = 0; i < 3; i++)
+    {        
+        do
+        {
+            cout << "Введите объём продаж " << i + 1 << " менеджера: ";
+            cin >> sales[i];
+        } while (sales[i] < 0);
+        (sales[i] > sales[best_manager]) ? best_manager = i : best_manager;
+        if (sales[i] < 500) salary[i] = sales[i] * 0.03;
+        else if (sales[i] < 1000) salary[i] = sales[i] * 0.05;
+        else salary[i] = sales[i] * 0.08;
+        salary[i] += base_salary;
+    }
+    salary[best_manager] += base_salary;
+    for (int i = 0; i < 3; i++)
+    {
+        cout << i + 1 << " менеджер: " << salary[i] << endl;
+    }
+}
+
+void menu()
+{
+    int task = 0;
+    void(*list_of_menu[2])() = { task_1, task_2 };
+    do
+    {
+        do
+        {
+            cout << "Введите номер задания, 0 - выход: ";
+            cin >> task;
+        } while (task < 0 or task > 2);
+        if (task) list_of_menu[task - 1]();
+    } while (task);
 }
